@@ -1,11 +1,13 @@
 import fetch from 'isomorphic-unfetch';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 const BOOKS_ENDPOINT = 'http://openlibrary.org/';
 const IMAGES_ENDPOINT = 'http://covers.openlibrary.org/';
 
-const getImage = (id, size) => (id ? `${IMAGES_ENDPOINT}b/id/${id}-${size}.jpg` : undefined);
+const getImage = (id: string, size: string) =>
+    id ? `${IMAGES_ENDPOINT}b/id/${id}-${size}.jpg` : undefined;
 
-const getBooks = async title => {
+const getBooks = async (title: string) => {
     try {
         const results = await fetch(
             `${BOOKS_ENDPOINT}search.json?title=${encodeURIComponent(title)}`
@@ -33,7 +35,7 @@ const getBooks = async title => {
     }
 };
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {
         query: { title, page = 1, page_limit = 100 },
         method,
@@ -50,9 +52,9 @@ export default async (req, res) => {
     }
 
     try {
-        const allBooks = await getBooks(title);
-        const start = parseInt(page, 10);
-        const limit = parseInt(page_limit, 10);
+        const allBooks = await getBooks(Array.isArray(title) ? title[0] : title);
+        const start = Number(page);
+        const limit = Number(page_limit);
         const books = allBooks.slice((start - 1) * limit, start * limit);
 
         res.status(200).json(books);
