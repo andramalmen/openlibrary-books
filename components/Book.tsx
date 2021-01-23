@@ -2,7 +2,7 @@ import Image from 'next/image';
 import * as React from 'react';
 import Modal from './common/Modal';
 
-const Book = ({ book }) => {
+const Book = ({ book, layout }) => {
     const [showModal, setShowModal] = React.useState(false);
     const [modalContent, setModalContent] = React.useState();
 
@@ -38,6 +38,14 @@ const Book = ({ book }) => {
                 <div className="flex-grow p-3">
                     <div className="font-semibold text-pink-700">{book.title}</div>
                     <div className="text-sm text-gray-500">{book.author}</div>
+                    {layout === 'list' ? (
+                        <div className="text-sm text-gray-500">
+                            Publicaion year: {book.firstPublication}
+                        </div>
+                    ) : null}
+                    {layout === 'list' ? (
+                        <div className="text-sm text-gray-500">ISBN: {book.isbn}</div>
+                    ) : null}
                 </div>
             </div>
         </>
