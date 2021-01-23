@@ -1,16 +1,16 @@
 import Book from './Book';
+import * as React from 'react';
 
-const DisplayResults = ({ books }) => {
+const DisplayResults = ({ books, layout }) => {
+    const gridStyle = layout === 'grid' ? 'grid-cols-2 sm:grid-cols-3' : 'grid-cols-1';
     return (
-        <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 py-10">
-                {books.map(book => (
-                    <div key={book.id}>
-                        <Book book={book} />
-                    </div>
-                ))}
-            </div>
-        </>
+        <div className={`grid ${gridStyle} gap-4 py-10`}>
+            {books.map(book => (
+                <div key={book.id}>
+                    <Book book={book} layout={layout} />
+                </div>
+            ))}
+        </div>
     );
 };
 

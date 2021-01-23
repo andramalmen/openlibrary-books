@@ -15,7 +15,13 @@ const Modal = ({ book, closeModal }) => {
                 <div className="relative w-auto mx-auto max-w-3xl">
                     <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                         <div className="relative p-6 flex-auto">
-                            <Image src={book.image} alt={book.title} width={300} height={450} />
+                            <Image
+                                src={book.image}
+                                alt={book.title}
+                                width={300}
+                                height={450}
+                                priority={true}
+                            />
                         </div>
                         <div className="flex items-center justify-end">
                             <button
