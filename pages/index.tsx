@@ -1,3 +1,5 @@
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import Error from '../components/common/Error';
@@ -5,17 +7,22 @@ import Spinner from '../components/common/Spinner';
 import DisplayResults from '../components/DisplayResults';
 import Search from '../components/Search';
 import useBookSearch from '../hooks/useBookSearch';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const Home: React.FunctionComponent = ({ crtPage }: any) => {
     const router = useRouter();
 
     const [search, setSearch] = React.useState('');
-    const [layout, setLayout] = React.useState('grid');
-    const [perPage, setPerPage] = React.useState(100);
+    const [layout, setLayout] = useLocalStorage('layout', 'grid');
+    const [perPage, setPerPage] = useLocalStorage('perPage', 50);
     const [page, setPage] = React.useState(() => crtPage);
     const { data, error, isLoading } = useBookSearch(search, page, perPage);
+    React.useEffect(() => {
+        if (!search) {
+            router.push('/', undefined, { shallow: true });
+            setSearch('');
+        }
+    }, []);
 
     const onSearch = searchTerm => {
         setSearch(searchTerm);
@@ -31,6 +38,34 @@ const Home: React.FunctionComponent = ({ crtPage }: any) => {
     const changeResultsDisplayed = (e, resultsPerPage) => {
         e.preventDefault;
         setPerPage(resultsPerPage);
+    };
+
+    const changePage = (e, newPage) => {
+        e.preventDefault;
+        router.push('/?page=' + newPage, undefined, { shallow: true });
+        setPage(newPage);
+    };
+
+    const createPagination = () => {
+        const pagination = [];
+        for (let i = 1; i <= data.numPages; i++) {
+            let cls = 'bg-white text-pink-500';
+            if (i === page) {
+                cls = 'text-white bg-pink-500';
+            }
+            const element = (
+                <li key={i} onClick={e => changePage(e, i)} className="cursor-pointer">
+                    <span
+                        className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 items-center justify-center leading-tight relative border border-solid border-pink-500 ${cls}`}
+                    >
+                        {i}
+                    </span>
+                </li>
+            );
+            pagination.push(element);
+        }
+
+        return pagination;
     };
 
     return (
@@ -116,6 +151,13 @@ const Home: React.FunctionComponent = ({ crtPage }: any) => {
                             </div>
                         </div>
                         <DisplayResults books={data.books} layout={layout} />
+                        {data.numPages > 1 && search ? (
+                            <nav className="block">
+                                <ul className="flex pl-0 rounded list-none flex-wrap justify-end">
+                                    {createPagination()}
+                                </ul>
+                            </nav>
+                        ) : null}
                     </>
                 ) : null}
             </div>
