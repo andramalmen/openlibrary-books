@@ -1,9 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 
-export const api = async (
-    endpoint: string,
-    customConfig = {}
-): Promise<Record<string, unknown>> => {
+const api = async (endpoint: string, customConfig = {}): Promise<Record<string, unknown>> => {
     const config = {
         method: 'GET',
         ...customConfig,
@@ -12,3 +9,5 @@ export const api = async (
     const response = await fetch(endpoint, config);
     return response.json();
 };
+
+export default api;

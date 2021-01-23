@@ -1,8 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-const BOOKS_ENDPOINT = 'http://openlibrary.org/';
-const IMAGES_ENDPOINT = 'http://covers.openlibrary.org/';
+import { BOOKS_ENDPOINT, IMAGES_ENDPOINT } from '../../utils/constants';
 
 const getImage = (id: string, size: string) =>
     id ? `${IMAGES_ENDPOINT}b/id/${id}-${size}.jpg` : undefined;
@@ -13,9 +11,10 @@ const getBooks = async (title: string) => {
             `${BOOKS_ENDPOINT}search.json?title=${encodeURIComponent(title)}`
         );
         const json = await results.json();
+
         const books = json.docs
             .map(book => {
-                if (!book.author_name) {
+                if (!book.author_name || !book.isbn) {
                     return;
                 }
                 return {
@@ -24,6 +23,8 @@ const getBooks = async (title: string) => {
                     author: book.author_name.toString(),
                     image: getImage(book.cover_i, 'S'),
                     thumbnail: getImage(book.cover_i, 'L'),
+                    firstPublication: book.first_publish_year,
+                    isbn: book.isbn[0] ?? null,
                 };
             })
             .filter(b => b);
