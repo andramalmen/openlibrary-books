@@ -46,7 +46,7 @@ const getBooks = async (title: string) => {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {
-        query: { title, page = 1, page_limit = 100 },
+        query: { title },
         method,
     } = req;
 
@@ -61,13 +61,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        const allBooks = await getBooks(Array.isArray(title) ? title[0] : title);
-        const start = Number(page);
-        const limit = Number(page_limit);
-        const books = allBooks.slice((start - 1) * limit, start * limit);
-        const pages = Math.ceil(allBooks.length / limit);
+        const books = await getBooks(Array.isArray(title) ? title[0] : title);
 
-        res.status(200).json({ numPages: pages, books });
+        res.status(200).json({ books });
     } catch (err) {
         console.error(err);
         res.status(404).json({ error: 'No book not found.' });

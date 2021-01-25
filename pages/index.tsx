@@ -25,10 +25,13 @@ const Home = ({ crtPage }: { crtPage: string }) => {
         }
     }, []);
 
-    const onSearch = (searchTerm: string) => {
-        setSearch(searchTerm);
+    const changeResetPage = () => {
         router.push('/', undefined, { shallow: true });
         setPage('1');
+    };
+    const onSearch = (searchTerm: string) => {
+        setSearch(searchTerm);
+        changeResetPage();
     };
 
     const changeLayout = (e: React.MouseEvent<HTMLElement>, style: string) => {
@@ -37,8 +40,8 @@ const Home = ({ crtPage }: { crtPage: string }) => {
     };
 
     const changeResultsDisplayed = (resultsPerPage: string) => {
-        // e.preventDefault;
         setPerPage(resultsPerPage);
+        changeResetPage();
     };
 
     const changePage = (e: React.MouseEvent<HTMLElement>, newPage: string) => {
@@ -51,7 +54,6 @@ const Home = ({ crtPage }: { crtPage: string }) => {
         const pagination = [];
         for (let i = 1; i <= Number(data?.numPages); i++) {
             let cls = 'bg-white text-pink-500';
-            console.log(typeof i, typeof page, i.toString() === page);
             if (Number(i) === Number(page)) {
                 cls = 'text-white bg-pink-500';
             }
