@@ -1,21 +1,31 @@
 import Image from 'next/image';
 import * as React from 'react';
-import Modal from './common/Modal';
+import ImageModal from './ImageModal';
+import { IBook } from '../utils/types';
+import { ModalData } from './ImageModal';
 
-const Book = ({ book, layout }) => {
+type BookProps = {
+    book: IBook;
+    layout: 'grid' | 'list';
+};
+
+const Book = ({ book, layout }: BookProps) => {
     const [showModal, setShowModal] = React.useState(false);
-    const [modalContent, setModalContent] = React.useState();
+    const [modalContent, setModalContent] = React.useState<ModalData>({
+        image: '',
+        title: '',
+    });
 
-    const openModal = (e, book) => {
+    const openModal = (e: React.MouseEvent<HTMLElement>, book: IBook) => {
         e.preventDefault();
         setShowModal(true);
-        setModalContent(book);
+        setModalContent({ image: book.image ?? '', title: book.title });
     };
 
     return (
         <>
             {showModal ? (
-                <Modal book={modalContent} closeModal={() => setShowModal(false)} />
+                <ImageModal book={modalContent} closeModal={() => setShowModal(false)} />
             ) : null}
             <div className="bg-white w-full flex items-center p-2 shadow border">
                 <div className="relative flex items-center space-x-4">

@@ -1,7 +1,11 @@
-import React from 'react';
-import Image from 'next/image';
+import * as React from 'react';
 
-const Modal = ({ book, closeModal }) => {
+type ModalProps = {
+    closeModal: () => void;
+    children: React.ReactChild;
+};
+
+const Modal = ({ closeModal, children }: ModalProps) => {
     const hideModal = () => {
         closeModal();
     };
@@ -14,15 +18,7 @@ const Modal = ({ book, closeModal }) => {
             >
                 <div className="relative w-auto mx-auto max-w-3xl">
                     <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                        <div className="relative p-6 flex-auto">
-                            <Image
-                                src={book.image}
-                                alt={book.title}
-                                width={300}
-                                height={450}
-                                priority={true}
-                            />
-                        </div>
+                        <div className="relative p-6 flex-auto">{children}</div>
                         <div className="flex items-center justify-end">
                             <button
                                 className="text-pink-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"

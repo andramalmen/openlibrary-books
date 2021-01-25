@@ -8,13 +8,14 @@ import DisplayResults from '../components/DisplayResults';
 import Search from '../components/Search';
 import useBookSearch from '../hooks/useBookSearch';
 import useLocalStorage from '../hooks/useLocalStorage';
+import ResultsPerPagebutton from '../components/common/ResultsPerPageButton';
 
-const Home: React.FunctionComponent = ({ crtPage }: any) => {
+const Home = ({ crtPage }: { crtPage: string }) => {
     const router = useRouter();
 
     const [search, setSearch] = React.useState('');
     const [layout, setLayout] = useLocalStorage('layout', 'grid');
-    const [perPage, setPerPage] = useLocalStorage('perPage', 50);
+    const [perPage, setPerPage] = useLocalStorage('perPage', '50');
     const [page, setPage] = React.useState(() => crtPage);
     const { data, error, isLoading } = useBookSearch(search, page, perPage);
     React.useEffect(() => {
@@ -24,23 +25,26 @@ const Home: React.FunctionComponent = ({ crtPage }: any) => {
         }
     }, []);
 
-    const onSearch = searchTerm => {
-        setSearch(searchTerm);
+    const changeResetPage = () => {
         router.push('/', undefined, { shallow: true });
-        setPage(1);
+        setPage('1');
+    };
+    const onSearch = (searchTerm: string) => {
+        setSearch(searchTerm);
+        changeResetPage();
     };
 
-    const changeLayout = (e, style: string) => {
+    const changeLayout = (e: React.MouseEvent<HTMLElement>, style: string) => {
         e.preventDefault;
         setLayout(style);
     };
 
-    const changeResultsDisplayed = (e, resultsPerPage) => {
-        e.preventDefault;
+    const changeResultsDisplayed = (resultsPerPage: string) => {
         setPerPage(resultsPerPage);
+        changeResetPage();
     };
 
-    const changePage = (e, newPage) => {
+    const changePage = (e: React.MouseEvent<HTMLElement>, newPage: string) => {
         e.preventDefault;
         router.push('/?page=' + newPage, undefined, { shallow: true });
         setPage(newPage);
@@ -48,13 +52,13 @@ const Home: React.FunctionComponent = ({ crtPage }: any) => {
 
     const createPagination = () => {
         const pagination = [];
-        for (let i = 1; i <= data.numPages; i++) {
+        for (let i = 1; i <= Number(data?.numPages); i++) {
             let cls = 'bg-white text-pink-500';
-            if (i === page) {
+            if (Number(i) === Number(page)) {
                 cls = 'text-white bg-pink-500';
             }
             const element = (
-                <li key={i} onClick={e => changePage(e, i)} className="cursor-pointer">
+                <li key={i} onClick={e => changePage(e, i.toString())} className="cursor-pointer">
                     <span
                         className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 items-center justify-center leading-tight relative border border-solid border-pink-500 ${cls}`}
                     >
@@ -96,7 +100,7 @@ const Home: React.FunctionComponent = ({ crtPage }: any) => {
                                                 fill={
                                                     layout === 'grid'
                                                         ? 'rgba(190, 24, 93, 1)'
-                                                        : null
+                                                        : undefined
                                                 }
                                                 d="M22 12.999V20a1 1 0 0 1-1 1h-8v-8.001h9zm-11 0V21H3a1 1 0 0 1-1-1v-7.001h9zM11 3v7.999H2V4a1 1 0 0 1 1-1h8zm10 0a1 1 0 0 1 1 1v6.999h-9V3h8z"
                                             />
@@ -117,7 +121,7 @@ const Home: React.FunctionComponent = ({ crtPage }: any) => {
                                                 fill={
                                                     layout !== 'grid'
                                                         ? 'rgba(190, 24, 93, 1)'
-                                                        : null
+                                                        : undefined
                                                 }
                                                 d="M8 4h13v2H8V4zM4.5 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 6.9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM8 11h13v2H8v-2zm0 7h13v2H8v-2z"
                                             />
@@ -125,33 +129,24 @@ const Home: React.FunctionComponent = ({ crtPage }: any) => {
                                     </button>
                                 </div>
                                 <div className="text-xs pt-5 md:pt-0">
-                                    Per page:
-                                    <button
-                                        type="submit"
-                                        className="appearance-none bg-pink-700 text-white text-base font-semibold p-3 shadow hover:bg-pink-400 mx-5"
-                                        onClick={e => changeResultsDisplayed(e, 50)}
-                                    >
-                                        50
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="appearance-none bg-pink-700 text-white text-base font-semibold p-3 shadow hover:bg-pink-400 mr-5"
-                                        onClick={e => changeResultsDisplayed(e, 20)}
-                                    >
-                                        20
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="appearance-none bg-pink-700 text-white text-base font-semibold p-3 shadow hover:bg-pink-400"
-                                        onClick={e => changeResultsDisplayed(e, 10)}
-                                    >
-                                        10
-                                    </button>
+                                    Per page: {perPage}
+                                    <ResultsPerPagebutton
+                                        changeResultsDisplayed={changeResultsDisplayed}
+                                        numResults="50"
+                                    />
+                                    <ResultsPerPagebutton
+                                        changeResultsDisplayed={changeResultsDisplayed}
+                                        numResults="20"
+                                    />
+                                    <ResultsPerPagebutton
+                                        changeResultsDisplayed={changeResultsDisplayed}
+                                        numResults="10"
+                                    />
                                 </div>
                             </div>
                         </div>
                         <DisplayResults books={data.books} layout={layout} />
-                        {data.numPages > 1 && search ? (
+                        {Number(data.numPages) > 1 && search ? (
                             <nav className="block">
                                 <ul className="flex pl-0 rounded list-none flex-wrap justify-end">
                                     {createPagination()}
