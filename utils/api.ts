@@ -1,6 +1,10 @@
 import fetch from 'isomorphic-unfetch';
+import { IBook } from './types';
 
-const api = async (endpoint: string, customConfig = {}): Promise<Record<string, unknown>> => {
+const api = async (
+    endpoint: string,
+    customConfig = {}
+): Promise<{ books: IBook[]; numPages: string }> => {
     const config = {
         method: 'GET',
         ...customConfig,
