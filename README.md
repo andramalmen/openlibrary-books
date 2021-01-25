@@ -1,34 +1,58 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Search for books
 
-## Getting Started
+# Getting started
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-First, run the development server:
+## Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
+Minimum [Node v10](https://nodejs.org/en/)
+Minimum [NPM v6](https://www.npmjs.com/get-npm)
+
+## Start development
+
+To start the app in development watch mode, run one the following command:
+
+``
+    npm run dev
+``
+
+To build the project for production and eun it, run one the following commands:
+
+```
+    npm run build
+    npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Linting and formatting
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+The project is using [Eslint](https://eslint.org) and [Prettier](https://prettier.io/) for code formatting.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+To check if the project has any linting issues, run the following command:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+``
+    npm run lint
+``
 
-## Learn More
+To check if the project has any formatting issues, run the following command:
 
-To learn more about Next.js, take a look at the following resources:
+``
+    npm run format:check
+``
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To format all code, run the following command:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+``
+    npm run format
+``
 
-## Deploy on Vercel
+To run a type checking, run the following command:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+``
+    npm run types:check
+``
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To validate that the changes are ready for deployment, run:
+
+``
+    npm run validate
+``

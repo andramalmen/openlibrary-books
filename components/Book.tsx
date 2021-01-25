@@ -50,7 +50,7 @@ const Book = ({ book, layout }: BookProps) => {
                     <div className="text-sm text-gray-500">{book.author}</div>
                     {layout === 'list' ? (
                         <div className="text-sm text-gray-500">
-                            Publicaion year: {book.firstPublication}
+                            Publication year: {book.firstPublication}
                         </div>
                     ) : null}
                     {layout === 'list' ? (
