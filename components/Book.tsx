@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import * as React from 'react';
-import Modal from './common/Modal';
+import ImageModal from './ImageModal';
 
 const Book = ({ book, layout }) => {
     const [showModal, setShowModal] = React.useState(false);
@@ -15,7 +15,7 @@ const Book = ({ book, layout }) => {
     return (
         <>
             {showModal ? (
-                <Modal book={modalContent} closeModal={() => setShowModal(false)} />
+                <ImageModal book={modalContent} closeModal={() => setShowModal(false)} />
             ) : null}
             <div className="bg-white w-full flex items-center p-2 shadow border">
                 <div className="relative flex items-center space-x-4">
