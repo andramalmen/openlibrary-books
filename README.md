@@ -1,5 +1,7 @@
 # Search for books
 
+Demo: https://openlibrary.andra.dev/
+
 # Getting started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
@@ -16,7 +18,7 @@ To start the app in development watch mode, run one the following command:
     npm run dev
 ``
 
-To build the project for production and eun it, run one the following commands:
+To build the project for production and run it, run one the following commands:
 
 ```
     npm run build
