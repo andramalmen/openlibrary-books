@@ -8,6 +8,7 @@ import DisplayResults from '../components/DisplayResults';
 import Search from '../components/Search';
 import useBookSearch from '../hooks/useBookSearch';
 import useLocalStorage from '../hooks/useLocalStorage';
+import ResultsPerPagebutton from '../components/common/ResultsPerPageButton';
 
 const Home = ({ crtPage }: { crtPage: string }) => {
     const router = useRouter();
@@ -35,8 +36,8 @@ const Home = ({ crtPage }: { crtPage: string }) => {
         setLayout(style);
     };
 
-    const changeResultsDisplayed = (e: React.MouseEvent<HTMLElement>, resultsPerPage: string) => {
-        e.preventDefault;
+    const changeResultsDisplayed = (resultsPerPage: string) => {
+        // e.preventDefault;
         setPerPage(resultsPerPage);
     };
 
@@ -126,28 +127,19 @@ const Home = ({ crtPage }: { crtPage: string }) => {
                                     </button>
                                 </div>
                                 <div className="text-xs pt-5 md:pt-0">
-                                    Per page:
-                                    <button
-                                        type="submit"
-                                        className="appearance-none bg-pink-700 text-white text-base font-semibold p-3 shadow hover:bg-pink-400 mx-5"
-                                        onClick={e => changeResultsDisplayed(e, '50')}
-                                    >
-                                        50
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="appearance-none bg-pink-700 text-white text-base font-semibold p-3 shadow hover:bg-pink-400 mr-5"
-                                        onClick={e => changeResultsDisplayed(e, '20')}
-                                    >
-                                        20
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="appearance-none bg-pink-700 text-white text-base font-semibold p-3 shadow hover:bg-pink-400"
-                                        onClick={e => changeResultsDisplayed(e, '10')}
-                                    >
-                                        10
-                                    </button>
+                                    Per page: {perPage}
+                                    <ResultsPerPagebutton
+                                        changeResultsDisplayed={changeResultsDisplayed}
+                                        numResults="50"
+                                    />
+                                    <ResultsPerPagebutton
+                                        changeResultsDisplayed={changeResultsDisplayed}
+                                        numResults="20"
+                                    />
+                                    <ResultsPerPagebutton
+                                        changeResultsDisplayed={changeResultsDisplayed}
+                                        numResults="10"
+                                    />
                                 </div>
                             </div>
                         </div>

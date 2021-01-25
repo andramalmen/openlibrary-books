@@ -28,7 +28,7 @@ const getBooks = async (title: string) => {
                 return {
                     id: book.isbn[0] + '-' + book.edition_key[0],
                     title: book.title,
-                    author: book.author_name,
+                    author: book.author_name.toString(),
                     image: getImage(book.cover_i, 'L'),
                     thumbnail: getImage(book.cover_i, 'S'),
                     firstPublication: book.first_publish_year,
