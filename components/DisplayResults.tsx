@@ -8,6 +8,9 @@ type DisplayResultsProps = {
 };
 
 const DisplayResults = ({ books, layout }: DisplayResultsProps) => {
+    if (!books.length) {
+        return <h3>No results for this search.</h3>;
+    }
     const gridStyle = layout === 'grid' ? 'grid-cols-2 sm:grid-cols-3' : 'grid-cols-1';
     return (
         <div className={`grid ${gridStyle} gap-4 py-10`}>
