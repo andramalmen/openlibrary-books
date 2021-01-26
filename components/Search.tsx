@@ -21,7 +21,7 @@ const Search = ({ onSearch }: SearchProps) => {
             <div className="max-w-sm mx-auto p-1 pr-0 flex items-center">
                 <input
                     type="search"
-                    placeholder="Search for a book"
+                    placeholder="Search for a book by title"
                     className="flex-1 appearance-none shadow p-3  mr-2 focus:outline-none"
                     onChange={changeSearchInput}
                     value={searchTerm}

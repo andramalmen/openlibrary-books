@@ -1,4 +1,4 @@
-# Search for books
+# Search for books by title
 
 Demo: https://openlibrary.andra.dev/
 

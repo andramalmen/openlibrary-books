@@ -9,6 +9,7 @@ import Search from '../components/Search';
 import useBookSearch from '../hooks/useBookSearch';
 import useLocalStorage from '../hooks/useLocalStorage';
 import ResultsPerPagebutton from '../components/common/ResultsPerPageButton';
+import Link from 'next/link';
 
 const Home = ({ crtPage }: { crtPage: string }) => {
     const router = useRouter();
@@ -75,7 +76,11 @@ const Home = ({ crtPage }: { crtPage: string }) => {
     return (
         <ErrorBoundary FallbackComponent={Error}>
             <div className="container mx-auto px-5 sm:px-20 py-20">
-                <h1 className="text-5xl text-center pb-10">Find books</h1>
+                <div className="text-5xl text-center pb-10">
+                    <Link href="/">
+                        <a>Books Library</a>
+                    </Link>
+                </div>
                 <Search onSearch={onSearch} />
 
                 {error ? <Error /> : null}
@@ -132,7 +137,7 @@ const Home = ({ crtPage }: { crtPage: string }) => {
                                     Per page: {perPage}
                                     <ResultsPerPagebutton
                                         changeResultsDisplayed={changeResultsDisplayed}
-                                        numResults="50"
+                                        numResults="10"
                                     />
                                     <ResultsPerPagebutton
                                         changeResultsDisplayed={changeResultsDisplayed}
@@ -140,7 +145,7 @@ const Home = ({ crtPage }: { crtPage: string }) => {
                                     />
                                     <ResultsPerPagebutton
                                         changeResultsDisplayed={changeResultsDisplayed}
-                                        numResults="10"
+                                        numResults="50"
                                     />
                                 </div>
                             </div>
